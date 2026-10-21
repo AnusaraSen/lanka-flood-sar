@@ -1,0 +1,30 @@
+# Training configuration. Starting points to tune, not facts.
+
+seeds: [0, 1, 2]
+
+model:
+  architecture: unet
+  encoder: resnet34
+  encoder_weights: imagenet
+  in_channels: 7       # must match configs/data.yaml channels
+
+loss:
+  name: bce_dice
+  bce_weight: 0.5
+  dice_weight: 0.5
+
+optimiser:
+  name: adamw
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+
+training:
+  epochs: 50
+  batch_size: 8        # sized for 256 px chips on 6 GB VRAM
+  mixed_precision: true
+  num_workers: 4
+
+augmentations:
+  flips: true
+  rotations_90: true
+  speckle_noise: true

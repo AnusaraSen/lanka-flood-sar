@@ -1,0 +1,32 @@
+# Data configuration. All values are starting points to tune, not facts.
+# Verify event names, sizes and licences in Week 1 and record them in docs/data_card.md.
+
+paths:
+  raw: data/raw
+  chips: data/chips
+  reference: data/reference
+
+chips:
+  size: 256            # pixels; 512 only if VRAM allows on the RTX 4050 (6 GB)
+  stride_train: 256
+  stride_infer: 192    # overlap at inference, blended at tile edges
+
+channels:
+  - vv_db
+  - vh_db
+  - vv_vh_diff
+  - elevation
+  - slope
+  - hand
+  - permanent_water
+
+splits:
+  # Headline domain-shift test: hold Sri Lanka (May 2017) out of training entirely.
+  holdout_event: sri_lanka_2017
+  # Filled in once Sen1Floods11 is inspected in Week 1.
+  train_events: []
+  val_events: []
+
+sources:
+  sen1floods11: {status: not_downloaded, licence: unverified}
+  mmflood:      {status: not_downloaded, licence: unverified}   # stretch goal

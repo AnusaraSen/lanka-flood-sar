@@ -1,0 +1,4 @@
+{
+  "_note": "Model weights are never committed. List each trained model here with its checksum, config and where it is stored.",
+  "models": []
+}

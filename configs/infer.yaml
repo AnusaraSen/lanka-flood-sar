@@ -1,0 +1,16 @@
+# Inference configuration. Starting points to tune, not facts.
+
+tiling:
+  size: 256
+  overlap: 64
+  blend: linear
+
+ensemble:
+  members: 3
+  method: deep_ensemble   # alternative: mc_dropout
+
+threshold: 0.5
+
+output:
+  formats: [geotiff, geojson]
+  include_uncertainty: true

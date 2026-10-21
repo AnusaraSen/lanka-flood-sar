@@ -1,0 +1,82 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lankaflood"
+version = "0.1.0"
+description = "Flood extent mapping from Sentinel-1 radar with deep learning, calibrated uncertainty and domain-shift testing (Sri Lanka, May 2017 case study)."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "numpy",
+    "pandas",
+    "pyyaml",
+    "python-dotenv",
+    "tqdm",
+    "matplotlib",
+    # geospatial
+    "rasterio",
+    "geopandas",
+    "shapely",
+    "pyproj",
+    "xarray",
+    "rioxarray",
+    # data access
+    "earthengine-api",
+    "pystac-client",
+    # classical ML and baselines
+    "scikit-learn",
+    "scikit-image",
+    "lightgbm",
+]
+
+[project.optional-dependencies]
+# Deep learning stack. PyTorch comes from the CUDA wheel index configured below.
+ml = [
+    "torch",
+    "torchvision",
+    "torchgeo",
+    "segmentation-models-pytorch",
+]
+# Service and monitoring stack (Week 6+).
+api = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "prometheus-client",
+    "psycopg[binary]",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+    "pre-commit",
+    "ipykernel",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lankaflood"]
+
+# --- PyTorch with CUDA 12.8 wheels (works with a CUDA 13.0 driver) ---
+# Starting point: confirm with `uv run python -c "import torch; print(torch.cuda.is_available())"`.
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

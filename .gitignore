@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Secrets and local config
+.env
+
+# Data and model weights are never committed (see data/README note in docs/data_card.md)
+data/*
+!data/.gitkeep
+models/*
+!models/manifest.json
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Docker volumes and local state
+.docker/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
